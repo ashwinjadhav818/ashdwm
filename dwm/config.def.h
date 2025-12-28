@@ -1,8 +1,10 @@
 /*
 * PATCHES
-*dwm-statuscmd-20210405-67d76bd - for dwmblocks async
+* dwm-statuscmd-20210405-67d76bd - for dwmblocks async
 * dwm-hide_vacant_tags-6.4 - hide empty workspaces
 * dwm-sticky-6.5 - sticky windows
+* dwm-attachaside-6.6 - change the layout of new window added 
+* dwm-resetnmaster-6.3 - reset master
 */
 #include <X11/XF86keysym.h>
 
@@ -100,21 +102,22 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	
-	/* --- Navigation (Colemak-DH Home Row: n, e, i) --- */
+	/* --- Navigation --- */
 	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } }, // Next window
-	{ MODKEY,                       XK_e,      focusstack,     {.i = -1 } }, // Prev window
-	
-	/* --- Master Area (Colemak-DH Home Row: m, i) --- */
-	{ MODKEY,                       XK_m,      incnmaster,     {.i = +1 } }, // More windows in master
-	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = -1 } }, // Fewer windows in master
-	{ MODKEY,                       XK_i,      zoom,           {0} },        // Push window to master
+	{ MODKEY,                       XK_o,      focusstack,     {.i = -1 } }, // Prev window
 
-	/* --- Resizing (Colemak-DH Home Row: h, o) --- */
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, // Shrink master
-	{ MODKEY,                       XK_o,      setmfact,       {.f = +0.05} }, // Grow master
+    /* --- Resizing --- */
+	{ MODKEY,                       XK_e,      setmfact,       {.f = -0.05} }, // Shrink master
+	{ MODKEY,                       XK_i,      setmfact,       {.f = +0.05} }, // Grow master
+
+	/* --- Master Area --- */
+	{ MODKEY,                       XK_m,      incnmaster,     {.i = +1 } }, // More windows in master
+	{ MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } }, // Fewer windows in master
+	{ MODKEY,                       XK_z,      zoom,           {0} },        // Push window to master
+    { MODKEY,                       XK_r,      resetnmaster,   {0}},  // Reset master
 
 	/* --- Layout Management --- */
-	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[0]} }, // Tiled
+	{ MODKEY,                       XK_p,      setlayout,      {.v = &layouts[0]} }, // Tiled
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} }, // Floating
 	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} }, // Monocle
 	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {0} },                // Toggle last layout
