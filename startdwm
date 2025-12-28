@@ -1,0 +1,17 @@
+# --- GTK Theme ---
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+
+# --- QT Settings ---
+export QT_QPA_PLATFORM="xcb"
+export QT_QPA_PLATFORMTHEME="qt6ct"
+
+dunst &
+dwmblocks &
+feh --bg-fill ~/Pictures/Wallpapers/initiald.png &
+picom &
+
+# 3. The dwm restart loop
+while :; do
+    ssh-agent dwm
+done
