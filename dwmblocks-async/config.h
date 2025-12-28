@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 // String used to delimit block outputs in the status.
-#define DELIMITER "  |  "
+#define DELIMITER "   "
 
 // Maximum number of Unicode characters that a block can output.
 #define MAX_BLOCK_OUTPUT_LENGTH 64
@@ -18,10 +18,11 @@
 
 // Define blocks for the status feed as X(icon, cmd, interval, signal).
 #define BLOCKS(X)             \
-    X("task: ", "org-clock-task | sed 's/No clocks running./Empty/'", 30, 12) \
+    X("task: ", "org-clock-task", 30, 12) \
     X("music: ", "mpc current || echo 'Stopped'", 0, 11) \
-    X("vol: ", "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)\"%\"}'", 1, 5) \
-    X("bat: ", "cat /sys/class/power_supply/BAT1/capacity | sed 's/$/%/'", 30, 3) \
-    X("time: ", "date '+%H:%M:%S'", 1, 1) \
+    X("net: ", "sb-network", 20, 5) \
+    X("vol: ", "sb-volume", 1, 4) \
+    X("bat: ", "sb-battery", 30, 3) \
+    X("date: ", "date '+%a %b %d %I:%M:%S %p'", 1, 1) \
 
 #endif  // CONFIG_H

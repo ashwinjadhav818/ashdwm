@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Handle clicks from dwmblocks
+case $BLOCK_BUTTON in
+    1) kitty nmtui & ;; # Left Click: Open Manager
+    2) nmcli radio wifi $(nmcli radio wifi | grep -q "enabled" && echo "off" || echo "on") ;; # Middle Click: Toggle Wifi
+    3) notify-send "Network Status" "[W]: Wifi | [E]: Eth | [V]: VPN" ;; # Right Click: Help
+    4|5) pkill -RTMIN+4 dwmblocks ;; # Scroll: Force Refresh
+esac
+
+# 1. Wifi Status & Strength
+wifi_on=$(nmcli -g WIFI r)
+
+if [ "$wifi_on" = "enabled" ]; then
+    # Get signal of active (*) connection
+    wifi_sig=$(nmcli -t -f IN-USE,SIGNAL dev wifi | grep '^\*' | cut -d: -f2)
+    if [ -n "$wifi_sig" ]; then
+        wifiicon="[W] ${wifi_sig}%"
+    else
+        wifiicon="[-]"
+    fi
+else
+    wifiicon="[X]"
+fi
+
+# 2. Ethernet Status
+if nmcli -t -f TYPE,STATE dev | grep -q "^ethernet:connected"; then
+    ethericon=" [E]"
+else
+    ethericon=""
+fi
+
+# 3. VPN Status
+if nmcli -t -f TYPE,STATE con show --active | grep -qvE "wireless|ethernet|type"; then
+    tunicon=" [V]"
+else
+    tunicon=""
+fi
+
+printf "%s%s%s\n" "$wifiicon" "$ethericon" "$tunicon"
