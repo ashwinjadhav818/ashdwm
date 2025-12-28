@@ -13,10 +13,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[] = { 
-    "Iosevka:size=11", 
-    "FiraCode Nerd Font:size=11" 
-};
+static const char *fonts[] = { "Iosevka-Bold:size=11" };
 static const char dmenufont[]       = "Iosevka:size=11";
 
 /* Monochrome Palette */
@@ -66,23 +63,23 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
 #define STATUSBAR "dwmblocks"
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run_flatpak", NULL };
-static const char *clipcmd[] = { "sh", "-c", "greenclip print | dmenu -i -l 20 -p 'Clipboard' -nb \"#000000\" -nf \"#bbbbbb\" -sb \"#ffffff\" -sf \"#000000\" | xargs -r -d'\\n' -I '{}' greenclip print '{}'", NULL };
-static const char *browsercmd[] = { "qutebrowser-profile", "--menu", "dmenu -nb \"#000000\" -nf \"#bbbbbb\" -sb \"#ffffff\" -sf \"#000000\"", NULL };
+static const char *dmenucmd[] = { "sh", "-c", "j4-dmenu-desktop --dmenu=dmenu --term=kitty", NULL };
+static const char *clipcmd[] = { "sh", "-c", "greenclip print | dmenu -i -l 20 -p 'Clipboard' | xargs -r -d'\\n' -I '{}' greenclip print '{}'", NULL };
+static const char *browsercmd[] = { "qutebrowser-profile", "--menu dmenu", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
-static const char *filescmd[]  = { "kitty", "yazi", NULL };
+static const char *filescmd[]  = { "pcmanfm-qt", NULL };
 static const char *emacscmd[]  = { "emacsclient", "-c", NULL };
 
 /* system commands */
-static const char *restartdwmcmd[] = { "pkill", "dwm", NULL };
 static const char *quitdwmcmd[] = { "pkill", "xinit", NULL };
+
+/* screenshot commands */
+static const char *shotcpycmd[]  = { "sh", "-c", "maim -s | xclip -selection clipboard -t image/png && notify-send 'Screenshot' 'Copied to Clipboard' -i camera-photo", NULL };
+static const char *shotsavecmd[] = { "sh", "-c", "maim -s ~/Pictures/Screenshots/$(date +%s)_dwm.png && notify-send 'Screenshot' 'Saved to ~/Pictures/Screenshots' -i camera-photo", NULL };
 
 /* hardware commands */
 static const char *lockcmd[] = { "sh", "-c", "XSECURELOCK_SHOW_DATETIME=1 xsecurelock", NULL };
@@ -125,17 +122,22 @@ static const Key keys[] = {
     { MODKEY,                       XK_s,      togglesticky,   {0} },
 	
 	/* --- System Control --- */
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = restartdwmcmd } },
+	{ MODKEY|ShiftMask,             XK_s,      quit,          {0} },
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = quitdwmcmd } },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+    { MODKEY|ControlMask,           XK_b,      togglebar,      {0} },
 
 	/* --- Monitor Focus --- */
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
+	/* --- Screenshot --- */
+    { 0,                    XK_Print,  spawn,          {.v = shotcpycmd } },
+    { ControlMask,          XK_Print,  spawn,          {.v = shotsavecmd } },
 
 	/* --- Tag Keys --- */
 	TAGKEYS(                        XK_1,                      0)
