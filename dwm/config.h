@@ -2,6 +2,7 @@
 * PATCHES
 *dwm-statuscmd-20210405-67d76bd - for dwmblocks async
 * dwm-hide_vacant_tags-6.4 - hide empty workspaces
+* dwm-sticky-6.5 - sticky windows
 */
 #include <X11/XF86keysym.h>
 
@@ -71,6 +72,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run_flatpak", NULL };
+static const char *clipcmd[] = { "sh", "-c", "greenclip print | dmenu -i -l 20 -p 'Clipboard' -nb \"#000000\" -nf \"#bbbbbb\" -sb \"#ffffff\" -sf \"#000000\" | xargs -r -d'\\n' -I '{}' greenclip print '{}'", NULL };
 static const char *browsercmd[] = { "qutebrowser-profile", "--menu", "dmenu -nb \"#000000\" -nf \"#bbbbbb\" -sb \"#ffffff\" -sf \"#000000\"", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
 static const char *filescmd[]  = { "kitty", "yazi", NULL };
@@ -90,6 +92,7 @@ static const Key keys[] = {
 	/* --- Launchers --- */
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_v,      spawn,          {.v = clipcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_f,      spawn,          {.v = filescmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = emacscmd } },
