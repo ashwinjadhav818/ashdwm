@@ -6,6 +6,8 @@
 * dwm-attachaside-6.6 - change the layout of new window added 
 * dwm-resetnmaster-6.3 - reset master
 * dwm-fibonacci-6.2 - fibonacci layouts
+* dwm-alwayscenter-20200625-f04cac6 - center floating windows
+* dwm-pertag-6.2 - unique layout per tag
 */
 #include <X11/XF86keysym.h>
 
