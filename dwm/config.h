@@ -86,6 +86,8 @@ static const char *lockcmd[] = { "sh", "-c", "XSECURELOCK_SHOW_DATETIME=1 xsecur
 static const char *mutecmd[]    = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
 static const char *volupcmd[]   = { "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && pkill -RTMIN+5 dwmblocks", NULL };
 static const char *voldowncmd[] = { "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && pkill -RTMIN+5 dwmblocks", NULL };
+static const char *briup[]   = { "brightnessctl", "set", "+10%", NULL };
+static const char *bridown[] = { "brightnessctl", "set", "10%-", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -154,6 +156,8 @@ static const Key keys[] = {
 	{ 0,             XF86XK_AudioMute,         spawn,          {.v = mutecmd } },
 	{ 0,             XF86XK_AudioLowerVolume,  spawn,          {.v = voldowncmd } },
 	{ 0,             XF86XK_AudioRaiseVolume,  spawn,          {.v = volupcmd } },
+    { 0,             XF86XK_MonBrightnessUp,   spawn,          {.v = briup } },
+    { 0,             XF86XK_MonBrightnessDown, spawn,          {.v = bridown } },
 };
 
 /* button definitions */
