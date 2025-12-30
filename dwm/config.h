@@ -11,6 +11,7 @@
 * shiftview - switch tags
 * dwm-resizecorners-6.5 - resize from the nearest corner
 * dwm-fullscreen-6.2 - real fullscreen function
+* dwm-preserveonrestart-6.3 - preserve window location on restart
 */
 #include <X11/XF86keysym.h>
 
