@@ -2,10 +2,10 @@
 
 # Handle clicks from dwmblocks
 case $BLOCK_BUTTON in
-    1) kitty nmtui & ;; # Left Click: Open Manager
+    1) nm-dmenu --config ~/.config/networkmanager-dmenu/config-dmenu.ini &  ;; # Left Click: Open Manager
     2) nmcli radio wifi $(nmcli radio wifi | grep -q "enabled" && echo "off" || echo "on") ;; # Middle Click: Toggle Wifi
     3) notify-send "Network Status" "[W]: Wifi | [E]: Eth | [V]: VPN" ;; # Right Click: Help
-    4|5) pkill -RTMIN+4 dwmblocks ;; # Scroll: Force Refresh
+    4|5) pkill -RTMIN+5 dwmblocks ;; # Scroll: Force Refresh
 esac
 
 # 1. Wifi Status & Strength
