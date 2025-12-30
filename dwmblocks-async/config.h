@@ -19,7 +19,6 @@
 // Define blocks for the status feed as X(icon, cmd, interval, signal).
 #define BLOCKS(X)             \
     X("task: ", "org-clock-task", 30, 12) \
-    X("music: ", "mpc current || echo 'Stopped'", 0, 11) \
     X("net: ", "sb-network", 20, 5) \
     X("vol: ", "sb-volume", 1, 4) \
     X("bat: ", "sb-battery", 30, 3) \
