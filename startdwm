@@ -1,6 +1,13 @@
 # Inherit vars
 . ~/.zprofile
 
+# ENV Vars
+export QT_QPA_PLATFORM="xcb"
+export QT_QPA_PLATFORMTHEME="qt6ct"
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export XSECURELOCK_SHOW_DATETIME=1
+export XSECURELOCK_PASSWORD_PROMPT=asterisks
+
 exec ssh-agent zsh -c '
 while :; do
     dwm 2> ~/.dwm.log || break
