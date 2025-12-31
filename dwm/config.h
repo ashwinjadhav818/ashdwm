@@ -15,6 +15,38 @@
 */
 #include <X11/XF86keysym.h>
 
+/* autostart */
+static const char *const autostart[] = {
+	/* 1. Portal & Policykit */
+	"/usr/libexec/xdg-desktop-portal", NULL,
+	"/usr/libexec/xdg-desktop-portal-lxqt", NULL,
+	"/usr/libexec/lxqt-policykit-agent", NULL,
+
+	/* 2. Appearance & Desktop */
+	"feh", "--bg-fill", "/home/ashwin/Pictures/Wallpapers/r34_night_dark.jpg", NULL,
+	"picom", NULL,
+	"unclutter", NULL,
+
+	/* 3. Daemons & Services */
+	"dunst", NULL,
+	"dwmblocks", NULL,
+	"greenclip", "daemon", NULL,
+	"emacs-gtk+x11", "--daemon", NULL,
+	"/usr/libexec/kdeconnectd", NULL,
+	"kdeconnect-indicator", NULL,
+	"libinput-gestures-setup", "start", NULL,
+
+	/* 4. Screen Lock & Power (Shell commands need sh -c) */
+	"xset", "s", "300", "300", NULL,
+	"sh", "-c", "xss-lock -- xsecurelock", NULL,
+
+	/* 5. Gsettings (Theme forcing) */
+	"sh", "-c", "gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'", NULL,
+	"sh", "-c", "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'", NULL,
+
+	NULL /* terminate the entire array */
+};
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
