@@ -1,0 +1,66 @@
+#+TITLE: AshDWM
+#+AUTHOR: A S H
+#+OPTIONS: toc:nil num:nil
+
+#+CAPTION: Desktop Preview
+[[./assets/main.png]]
+
+* Overview
+This repository contains my personal build of the *Suckless* software suite.
+
+* Included Builds
+| Component       | Description                                      |
+|-----------------+--------------------------------------------------|
+| *DWM*             | Dynamic Window Manager                           |
+| *DWMBlocks-async* | Modular status bar with asynchronous updating    |
+| *DMenu*           | Efficient dynamic menu for application launching |
+| *ST*              | Simple Terminal with transparency and scrollback |
+| *Picom*           | Compositor for shadows, blur, and opacity        |
+
+* Installation
+** Cloning
+#+begin_src bash
+  git clone https://github.com/ashwinjadhav818/ashdwm.git
+  cd ashdwm
+#+end_src
+
+** Building
+Since each tool is in its own directory, you can build them individually:
+
+For dwm
+#+begin_src bash
+  cd dwm
+  sudo make clean install
+#+end_src
+
+For st
+#+begin_src bash
+  cd st
+  sudo make clean install
+#+end_src
+
+And so on for the other tools
+
+* Usage
+To launch AshDWM, add the following to your =~/.xinitrc=:
+
+#+begin_src bash
+exec <Path_to_AshDWM>/startdwm
+#+end_src
+
+Now you can start ashdwm using by typing =startx= in tty or by adding a =.desktop= entry in =/usr/share/xsessions=
+Here's a example ==dwm.desktop==
+#+begin_src ini
+    [Desktop Entry]
+    Name=dwm
+    Comment=suckless dynamic window manager
+    Exec=<Path_to_AshDWM>/startdwm
+    Icon=dwm
+    Type=XSession
+#+end_src
+* Dependencies
+- *Fonts:* Pragmasevka 
+- *Shell:* zsh
+- *Extras*
+  - greenclip
+  - tuneD  
