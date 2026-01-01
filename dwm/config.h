@@ -12,8 +12,15 @@
 * dwm-resizecorners-6.5 - resize from the nearest corner
 * dwm-fullscreen-6.2 - real fullscreen function
 * dwm-preserveonrestart-6.3 - preserve window location on restart
+* dwm-barpadding-6.6 - add padding for the dwm bar
+* dwm-cool_autostart-6.5 - use autostart inside dwm itself!
+* dwm-systray-6.6 - add systray in dwm bar
+* dwm-exitmenu-6.3 - add a exit menu in dwm
 */
+
 #include <X11/XF86keysym.h>
+#include "fibonacci.c"
+#include "exitdwm.c"
 
 /* autostart */
 static const char *const autostart[] = {
@@ -94,7 +101,6 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 60;  /* refresh rate (per second) for client move/resize */
 
-#include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },
@@ -136,7 +142,6 @@ static const char *voldowncmd[] = { "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO
 static const char *briup[]   = { "brightnessctl", "set", "+10%", NULL };
 static const char *bridown[] = { "brightnessctl", "set", "10%-", NULL };
 
-#include "exitdwm.c"
 /* keybinds */
 /* Layout Layer */
 static Key keyseq_layout[] = {
