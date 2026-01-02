@@ -104,6 +104,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 60;  /* refresh rate (per second) for client move/resize */
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
+static int attachbelow       = 1;    /* 1 means attach after the currently active window */
 
 #include "vanitygaps.c"
 static const Layout layouts[] = {
@@ -177,7 +178,8 @@ static Key keyseq_layout[] = {
 	{ 0,             XK_m,      setlayout,      {.v = &layouts[12]} }, // Dwindle 
 	{ 0,             XK_f,      setlayout,      {.v = &layouts[13]} }, // Centeredfloating
 	{ 0,             XK_g,      setlayout,      {0} },                 // Toggle Last
-	{ 0,             0,         NULL,           {0} } 
+    { 0,             XK_Tab,    toggleAttachBelow,           {0} },    // ToggleAttachBelow
+    { 0,             0,         NULL,           {0} } 
 };
 
 /* Gaps & Resizing Layer */
