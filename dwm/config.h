@@ -81,13 +81,20 @@ static const char col_gray[]        = "#bbbbbb"; // Inactive text
 static const char col_white[]       = "#ffffff"; // Active text / Active border
 
 static const char *colors[][3]      = {
-	/* fg         bg         border   */
-	[SchemeNorm] = { col_gray,  col_black, col_dark_gray },
-	[SchemeSel]  = { col_black, col_gray, col_gray },
+	/*              fg          bg         border   */
+	[SchemeNorm] = { col_white,  col_black, col_black },
+	[SchemeSel]  = { col_white, col_black, col_black },
+
+    /* for bar --> {text, background, null} */
+    [SchemeStatus]  = { col_white, col_black,  col_black  }, /* status R */
+    [SchemeTagsSel]  = { col_black, col_white,  col_black  }, /* tag L selected */
+    [SchemeTagsNorm]  = { col_white, col_black,  col_black  }, /* tag L unselected */
+    [SchemeInfoSel]  = { col_gray, col_black,  col_black  }, /* info M selected */
+    [SchemeInfoNorm]  = { col_gray, col_black,  col_black  }, /* info M unselected */
 };
 
 /* tagging */
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const int taglayouts[] = { 0, 2, 5, 1, 11, 9, 0, 0, 0 };
 
 static const Rule rules[] = {
