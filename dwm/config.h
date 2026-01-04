@@ -71,8 +71,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 0;        /* vertical padding of bar */
 static const int sidepad            = 0;        /* horizontal padding of bar */
-static const char *fonts[] = { "Pragmasevka:pixelsize=14:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Pragmasevka:pixelsize=14:antialias=true:autohint=true";
+static const char *fonts[] = { "Pragmasevka:pixelsize=16:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Pragmasevka:pixelsize=16:antialias=true:autohint=true";
 
 /* Monochrome Palette */
 static const char col_black[]       = "#000000"; // Background
@@ -157,8 +157,8 @@ static const char *lockcmd[] = { "sh", "-c", "XSECURELOCK_SHOW_DATETIME=1 xsecur
 static const char *mutecmd[]    = { "sh", "-c", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && pkill -RTMIN+4 dwmblocks", NULL };
 static const char *volupcmd[]   = { "sh", "-c", "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && pkill -RTMIN+4 dwmblocks", NULL };
 static const char *voldowncmd[] = { "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && pkill -RTMIN+4 dwmblocks", NULL };
-static const char *briup[]   = { "brightnessctl", "set", "+10%", NULL };
-static const char *bridown[] = { "brightnessctl", "set", "10%-", NULL };
+static const char *briup[]   = { "sh", "-c", "brightnessctl set 10%+", NULL };
+static const char *bridown[] = { "sh", "-c", "brightnessctl set 10%-", NULL };
 
 /* keybinds */
 /* Layout Layer */
