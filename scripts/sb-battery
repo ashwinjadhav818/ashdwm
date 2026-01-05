@@ -16,13 +16,13 @@ for battery in /sys/class/power_supply/BAT?*; do
     capacity=$(cat "$battery/capacity")
 
     # 1. EMERGENCY SHUTDOWN (at 10%)
-    if [ "$status_raw" = "Discharging" ] && [ "$capacity" -le 250 ]; then
+    if [ "$status_raw" = "Discharging" ] && [ "$capacity" -le 25 ]; then
         if [ ! -f "$SHUTDOWN_LOCK" ]; then
             touch "$SHUTDOWN_LOCK"
             (
-                notify-send -u critical "CRITICAL: 20% BATTERY" "Shutting down in 20s! Plug in now to cancel."
-                sleep 20
-                # Re-check status after 20 seconds
+                notify-send -u critical "CRITICAL: 20% BATTERY" "Shutting down in 30s! Plug in now to cancel."
+                sleep 30
+                # Re-check status after 30 seconds
                 if [ "$(cat "$battery/status")" = "Discharging" ]; then
                     notify-send -u critical "System" "Powering off now..."
                     sudo shutdown -h now
@@ -63,14 +63,24 @@ for battery in /sys/class/power_supply/BAT?*; do
         target="throughput-performance"
     fi
 
-    # Only run sudo if the profile actually needs to change
-    if [ "$current_profile" != "$target" ]; then
-        sudo tuned-adm profile "$target"
+    # Icons
+    if [ "$status_raw" = "Charging" ]; then
+        icon="󱐋" # Bolt icon for charging
+    elif [ "$status_raw" = "Full" ]; then
+        icon="󰁹"
+    else
+        # Select icon based on 10% intervals
+        if [ "$capacity" -ge 90 ]; then icon="󰁹";
+        elif [ "$capacity" -ge 80 ]; then icon="󰂂";
+        elif [ "$capacity" -ge 70 ]; then icon="󰂁";
+        elif [ "$capacity" -ge 60 ]; then icon="󰂀";
+        elif [ "$capacity" -ge 50 ]; then icon="󰁿";
+        elif [ "$capacity" -ge 40 ]; then icon="󰁾";
+        elif [ "$capacity" -ge 30 ]; then icon="󰁽";
+        elif [ "$capacity" -ge 20 ]; then icon="󰁼";
+        elif [ "$capacity" -ge 10 ]; then icon="󰁻";
+        else icon="󰂃"; fi
     fi
 
-    # Formatting for dwmblocks
-    case "$status_raw" in
-        "Full") status="* " ;; "Discharging") status="# " ;; "Charging") status="$ " ;; *) status="! " ;;
-    esac
-    printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+    printf "%s %s%d%%" "$icon" "$warn" "$capacity"; unset warn
 done && printf "\\n"
