@@ -578,20 +578,22 @@ buttonpress(XEvent *e)
 		} else if (ev->x < x + TEXTW(selmon->ltsymbol))
 			click = ClkLtSymbol;
     	else if (ev->x > selmon->ww - statusw - getsystraywidth()) {
-        	x = selmon->ww - statusw;
+            x = selmon->ww - statusw - getsystraywidth();
 			click = ClkStatusText;
 			statussig = 0;
 			for (text = s = stext; *s && x <= ev->x; s++) {
 				if ((unsigned char)(*s) < ' ') {
 					ch = *s;
 					*s = '\0';
-					x += TEXTW(text) - lrpad;
+                    x += TEXTW(text) - lrpad;
 					*s = ch;
 					text = s + 1;
-					if (x >= ev->x)
-						break;
-					statussig = ch;
-				}
+                    if (ev->x >= x) {
+                        statussig = ch; // 1. Save this signal as the "active" one
+                    } else {
+                        break;          // 2. If the click is BEFORE the new x, stop here!
+                    }				
+                }
 			}
 		} else
 			click = ClkWinTitle;

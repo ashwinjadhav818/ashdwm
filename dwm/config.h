@@ -31,7 +31,7 @@ static const char *const autostart[] = {
 	"/usr/libexec/lxqt-policykit-agent", NULL,
 
 	/* 2. Appearance & Desktop */
-	"feh", "--bg-fill", "/home/ashwin/Pictures/Wallpapers/initiald-dark.jpg", NULL,
+	"feh", "--bg-fill", "/home/ashwin/Pictures/Wallpapers/r34_night_dark.jpg", NULL,
 	"picom", NULL,
 	"unclutter", NULL,
 
