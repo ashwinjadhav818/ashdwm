@@ -44,7 +44,7 @@ static const char *const autostart[] = {
 	"kdeconnect-indicator", NULL,
 	"libinput-gestures-setup", "start", NULL,
 
-	/* 4. Screen Lock & Power (Shell commands need sh -c) */
+	/* 4. Screen Lock & Power */
 	"xset", "s", "300", "300", NULL,
 	"sh", "-c", "xss-lock -- xsecurelock", NULL,
 
@@ -135,6 +135,7 @@ static const Layout layouts[] = {
 	{ ">M>",      centeredfloatingmaster },
 	{ NULL,       NULL },
 };
+
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
@@ -142,35 +143,36 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-
 #define STATUSBAR "dwmblocks"
+
+/* helper for spawning shell commands */
+#define SHCMD(cmd) { "sh", "-c", cmd, NULL }
 #define TERMINAL "st"
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "sh", "-c", "j4-dmenu-desktop --dmenu=dmenu --term=" TERMINAL, NULL };
-static const char *clipcmd[] = { "sh", "-c", "greenclip print | dmenu -s -l 20 -p 'Clipboard' | xargs -r -d'\\n' -I '{}' greenclip print '{}'", NULL };
-static const char *browsercmd[] = { "qutebrowser-profile", "--menu", "dmenu", NULL };
-static const char *termcmd[]  = { TERMINAL, NULL };
-static const char *filescmd[]  = { "pcmanfm-qt", NULL };
-static const char *emacscmd[]  = { "emacsclient", "-c", NULL };
-static const char *phonecmd[]  = { "dmenu-connect", NULL };
-static const char *websearchcmd[]  = { "dmenu-websearch", NULL };
-static const char *musiccmd[]  = { TERMINAL, "-e", "rmpc", NULL };
+static char dmenumon[2] = "0"; 
+static const char *dmenucmd[] = { "sh", "-c", "j4-dmenu-desktop --dmenu='dmenu -m \"$0\"' --term=" TERMINAL, dmenumon, NULL };
+static const char *clipcmd[]      = SHCMD("greenclip print | dmenu -s -l 20 -p 'Clipboard' | xargs -r -d'\\n' -I '{}' greenclip print '{}'");
+static const char *browsercmd[]   = { "qutebrowser-profile", "--menu", "dmenu", NULL };
+static const char *termcmd[]      = { TERMINAL, NULL };
+static const char *filescmd[]     = { "pcmanfm-qt", NULL };
+static const char *emacscmd[]     = { "emacsclient", "-c", NULL };
+static const char *phonecmd[]     = SHCMD("dmenu-connect");
+static const char *websearchcmd[] = SHCMD("dmenu-websearch");
+static const char *musiccmd[]     = { TERMINAL, "-e", "rmpc", NULL };
 
 /* screenshot commands */
-static const char *shotcpycmd[]  = { "sh", "-c", "maim -s | xclip -selection clipboard -t image/png && notify-send 'Screenshot' 'Copied to Clipboard' -i camera-photo", NULL };
-static const char *shotsavecmd[] = { "sh", "-c", "maim -s ~/Pictures/Screenshots/$(date +%s)_dwm.png && notify-send 'Screenshot' 'Saved to ~/Pictures/Screenshots' -i camera-photo", NULL };
+static const char *shotcpycmd[]  = SHCMD("maim -s | xclip -selection clipboard -t image/png && notify-send 'Screenshot' 'Copied to Clipboard' -i camera-photo");
+static const char *shotsavecmd[] = SHCMD("mkdir -p ~/Pictures/Screenshots && maim -s ~/Pictures/Screenshots/$(date +%s)_dwm.png && notify-send 'Screenshot' 'Saved to Screenshots' -i camera-photo");
 
 /* hardware commands */
-static const char *lockcmd[] = { "sh", "-c", "XSECURELOCK_SHOW_DATETIME=1 xsecurelock", NULL };
-static const char *mutecmd[]    = { "sh", "-c", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && pkill -RTMIN+4 dwmblocks", NULL };
-static const char *volupcmd[]   = { "sh", "-c", "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && pkill -RTMIN+4 dwmblocks", NULL };
-static const char *voldowncmd[] = { "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && pkill -RTMIN+4 dwmblocks", NULL };
-static const char *briup[]   = { "sh", "-c", "brightnessctl set 10%+", NULL };
-static const char *bridown[] = { "sh", "-c", "brightnessctl set 10%-", NULL };
+static const char *lockcmd[]     = SHCMD("XSECURELOCK_SHOW_DATETIME=1 xsecurelock");
+static const char *mutecmd[]     = SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; pkill -RTMIN+4 dwmblocks");
+static const char *volupcmd[]    = SHCMD("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+4 dwmblocks");
+static const char *voldowncmd[]  = SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+4 dwmblocks");
+static const char *briup[]       = SHCMD("brightnessctl set 10%+");
+static const char *bridown[]     = SHCMD("brightnessctl set 10%-");
 
-/* keybinds */
 /* Layout Layer */
 static Key keyseq_layout[] = {
 	/* modifier      key        function        argument */
