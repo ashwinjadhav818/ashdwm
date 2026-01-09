@@ -83,14 +83,14 @@ static const char col_white[]       = "#ffffff"; // Active text / Active border
 
 static const char *colors[][3]      = {
 	/*              fg          bg         border   */
-	[SchemeNorm] = { col_white,  col_black, col_gray },
+	[SchemeNorm] = { col_white,  col_black, col_dark_gray },
 	[SchemeSel]  = { col_white, col_black, col_gray },
 
     /* for bar --> {text, background, null} */
-    [SchemeStatus]  = { col_white, col_black,  col_black  }, /* status R */
+    [SchemeStatus]  = { col_white, col_black,  col_gray }, /* status R */
     [SchemeTagsSel]  = { col_black, col_white,  col_black  }, /* tag L selected */
-    [SchemeTagsNorm]  = { col_white, col_black,  col_black  }, /* tag L unselected */
-    [SchemeInfoSel]  = { col_gray, col_black,  col_black  }, /* info M selected */
+    [SchemeTagsNorm]  = { col_gray, col_black,  col_black  }, /* tag L unselected */
+    [SchemeInfoSel]  = { col_white, col_black,  col_black  }, /* info M selected */
     [SchemeInfoNorm]  = { col_gray, col_black,  col_black  }, /* info M unselected */
 };
 
@@ -147,7 +147,7 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands */
 #define SHCMD(cmd) { "sh", "-c", cmd, NULL }
-#define TERMINAL "st"
+#define TERMINAL "kitty"
 
 /* commands */
 static char dmenumon[2] = "0"; 
@@ -157,8 +157,9 @@ static const char *browsercmd[]   = { "qutebrowser-profile", "--menu", "dmenu", 
 static const char *termcmd[]      = { TERMINAL, NULL };
 static const char *filescmd[]     = { "pcmanfm-qt", NULL };
 static const char *emacscmd[]     = { "emacsclient", "-c", NULL };
-static const char *phonecmd[]     = SHCMD("dmenu-connect");
-static const char *websearchcmd[] = SHCMD("dmenu-websearch");
+static const char *phonecmd[]     = SHCMD("connect --menu dmenu");
+static const char *websearchcmd[] = SHCMD("websearch --menu dmenu");
+static const char *notescmd[] = SHCMD("notes --menu dmenu");
 static const char *musiccmd[]     = { TERMINAL, "-e", "rmpc", NULL };
 
 /* screenshot commands */
@@ -213,7 +214,7 @@ static Key keyseq_gaps[] = {
 	{ 0,             XK_l,      incrovgaps,     {.i = +3 } }, // Outer Vert
 
 	/* Cfacts (Window Weight / Size) */
-	{ ControlMask,   XK_n,      setcfact,       {.f = +0.25} },
+    { ControlMask,   XK_n,      setcfact,       {.f = +0.25} },
 	{ ControlMask,   XK_e,      setcfact,       {.f = -0.25} },
 	{ ControlMask,   XK_r,      setcfact,       {.f =  0.00} },
 
@@ -238,6 +239,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = phonecmd } },
 	{ MODKEY,                       XK_m,      spawn,          {.v = musiccmd } },
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = websearchcmd } },
+	{ MODKEY|ShiftMask,             XK_space,  spawn,          {.v = notescmd } },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	
 	/* --- Navigation --- */
@@ -260,8 +262,8 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_s,      keypress_other, {.v = keyseq_layout} }, // Layout Layer
     { MODKEY|ShiftMask,             XK_f,      keypress_other, {.v = keyseq_gaps}   }, // Gaps Layer
 	{ MODKEY,                       XK_g,      togglefloating, {0} },
-	{ MODKEY,                       XK_minus,  incrgaps,       {.i = +3 } },
-	{ MODKEY,                       XK_equal,  incrgaps,       {.i = -3 } },
+	{ MODKEY,                       XK_minus,  incrgaps,       {.i = -3 } },
+	{ MODKEY,                       XK_equal,  incrgaps,       {.i = +3 } },
     { MODKEY,                       XK_a,      fullscreen,     {0} },
     { MODKEY,                       XK_s,      togglesticky,   {0} },
 	
