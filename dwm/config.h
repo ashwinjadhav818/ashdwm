@@ -93,7 +93,7 @@ static char *colors[][3] = {
        [SchemeStatus]  = { normfgcolor, normbgcolor,  "#000000"  },
        [SchemeTagsSel]  = { selfgcolor, selbgcolor,  "#000000"  },
        [SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  },
-       [SchemeInfoSel]  = { selfgcolor, selbgcolor,  "#000000"  },
+       [SchemeInfoSel]  = { normfgcolor, normbgcolor,  "#000000"  },
        [SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  },
 };
 
@@ -185,6 +185,7 @@ static const char *phonecmd[]     = SHCMD("connect --menu dmenu");
 static const char *websearchcmd[] = SHCMD("websearch --menu dmenu");
 static const char *notescmd[] = SHCMD("notes --menu dmenu");
 static const char *musiccmd[]     = { TERMINAL, "-e", "rmpc", NULL };
+static const char *wallpapercmd[]     = { "wallpaper", NULL };
 
 /* screenshot commands */
 static const char *shotcpycmd[]  = SHCMD("maim -s | xclip -selection clipboard -t image/png && notify-send 'Screenshot' 'Copied to Clipboard' -i camera-photo");
@@ -265,6 +266,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_m,      spawn,          {.v = musiccmd } },
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = websearchcmd } },
 	{ MODKEY|ShiftMask,             XK_space,  spawn,          {.v = notescmd } },
+	{ MODKEY|ControlMask,           XK_space,  spawn,          {.v = wallpapercmd } },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,     {0} },
 	
