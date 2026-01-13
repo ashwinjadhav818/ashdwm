@@ -52,6 +52,9 @@ static const char *const autostart[] = {
 	"sh", "-c", "gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'", NULL,
 	"sh", "-c", "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'", NULL,
 
+
+    "sh", "-c", "xrdb ~/.Xresources && xdotool key --clearmodifiers super+control+shift+q && pidof st | xargs -r kill -USR1", NULL,
+
 	NULL /* terminate the entire array */
 };
 
@@ -263,6 +266,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = websearchcmd } },
 	{ MODKEY|ShiftMask,             XK_space,  spawn,          {.v = notescmd } },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,     {0} },
 	
 	/* --- Navigation --- */
 	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } }, // Next window
